@@ -82,11 +82,11 @@ I tried the two different based models, and the results are different.
 
 The results of dreamshaper LoRA are more gorgeous but further than real Genshin Impact. On the constract, the results of Stable Diffusion XL are more normal but closer to the real Genshin Impact styple. 
 
-The dreamshaper are more likely to generate NSFW images, which is very bothering especially for `boy` prompt. I do not know why it happens. Please let me know if you have some explanation.
+The dreamshaper is more likely to generate NSFW images, which is very bothering especially for `boy` prompt. I do not know why it happens. Please let me know if you have some explanation.
 
 To avoid the NSFW images, I have to implement some retry logics.
 
-Also the quality of results of Stable Diffusion XL are higher and more consistent.
+Also the quality of results of Stable Diffusion XL are higher and more consistent, and no NSFW images are generated during my testing.
 
 ### 3. The ranks do not matter
 
