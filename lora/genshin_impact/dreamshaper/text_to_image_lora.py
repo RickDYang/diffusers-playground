@@ -1,3 +1,5 @@
+import os
+
 from typing import Tuple
 import json
 import random
@@ -21,7 +23,9 @@ def load_base_pipeline(base_model):
 
 def load_lora(pipeline, lora_model, rank):
     pipeline.load_lora_weights(
-        lora_model, weight_name=f"pytorch_lora_weights_{rank}.safetensors"
+        lora_model,
+        weight_name=f"pytorch_lora_weights_{rank}.safetensors",
+        force_download=FORCE_DOWNLOAD,
     )
     return pipeline
 
@@ -80,7 +84,7 @@ def infer(
             j += 1
 
         filename = f"r{rank:02d}-{i:04d}"
-        image.save(f"./test/{filename}.png")
+        image.save(f"{OUTPUT_DIR}/{filename}.png")
         print(f"Generate {filename} done/{total}")
 
 
@@ -137,10 +141,17 @@ def texts_to_images(
 GUIDANCE_SCALE = 8
 WIDTH = 384
 HEIGHT = 512
+# The huggingface API load_lora_weights have bugs
+# which cannot download the weights file except the first weight safetenors file
+# So we set FORCE_DOWNLOAD to True to force download all the weights files
+FORCE_DOWNLOAD = True
+OUTPUT_DIR = "./out"
 
 
 if __name__ == "__main__":
-    random.seed(12345)
+    random.seed(1234)
+    if not os.path.exists(OUTPUT_DIR):
+        os.mkdir(OUTPUT_DIR)
     prompts = load_prompts()
     texts_to_images(
         "xyn-ai/DreamShaper",
