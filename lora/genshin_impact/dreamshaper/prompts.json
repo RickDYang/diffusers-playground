@@ -1,0 +1,35 @@
+{
+    "major": ["(genshin impact style)", "hip-up body portrait"],
+    "combinations": [
+        ["girl", "boy"],
+        [
+            "blue theme",
+            "red theme",
+            "green theme",
+            "yellow theme",
+            "purple theme",
+            "orange theme",
+            "black theme",
+            "white theme"
+        ]
+    ],
+    "positives": [
+        "(masterpiece)", 
+        "detailed face","detailed eyes",  "detailed fingers", "detailed hands",
+        "artistic elegance", "epic style",
+        "highly detailed", "highest quality", "best quality",
+        "ultra high resolution", "highres",
+        "best lighting", "best lights", "best shadow", "best illustration",
+        "artistic light", "artistic shadow", "artistic composition",
+        "physics-based rendering"
+    ],
+    "negatives": [
+        "magic circle", "BadDream", "UnrealisticDream",
+        "worst quality", "poor details", "low quality", "jpeg artifacts",
+        "error", "fuzzy", "misshaped", "cropped", "mutant", "messy", "nudity",
+        "ugly", "deformed", "mutilated", "distorted", "twisted",
+        "bad anatomy", "bad proportions",
+        "poorly drawn face", "poorly drawn eyes", "poorly drawn hands", "poorly drawn fingers",
+        "poorly drawn legs", "poorly drawn limbs"
+    ]
+}
