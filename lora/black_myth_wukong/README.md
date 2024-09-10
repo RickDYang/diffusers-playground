@@ -37,6 +37,7 @@ The generated images will be saved in the `in` folder with name postfix `-lora-4
 
 
 ### Results
+Compared to the original images, the new style of images has darker lighting and shadows, the trees are more gnarled, the architectural style is more Chinese, the walls are more weathered and mottled, cars have been turned into stone blocks, and even a tree have been transformed into dilapidated pagodas.
 | Original | sd-xl-blackmyth-lora-8 |
 |-|-|
 | ![0](./sd_xl/in/00000.png)| ![0](./sd_xl/in/00000-lora-04.png) |
@@ -49,6 +50,3 @@ The generated images will be saved in the `in` folder with name postfix `-lora-4
 | ![7](./sd_xl/in/00007.png)| ![7](./sd_xl/in/00007-lora-04.png) |
 | ![8](./sd_xl/in/00008.png)| ![8](./sd_xl/in/00008-lora-04.png) |
 | ![9](./sd_xl/in/00009.png)| ![9](./sd_xl/in/00009-lora-04.png) |
-
-
-Compared to the original images, the new style of images has darker lighting and shadows, the trees are more gnarled, the architectural style is more Chinese, the walls are more weathered and mottled, cars have been turned into stone blocks, and even a tree have been transformed into dilapidated pagodas.
