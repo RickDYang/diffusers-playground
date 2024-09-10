@@ -9,17 +9,17 @@ import torch
 from diffusers import StableDiffusionXLPipeline
 
 
-def load_base_pipeline(base_model):
+def load_base_pipeline(base_model_name):
     pipeline = StableDiffusionXLPipeline.from_pretrained(
-        base_model, torch_dtype=torch.float16
+        base_model_name, torch_dtype=torch.float16
     ).to("cuda")
     pipeline.enable_model_cpu_offload()
     return pipeline
 
 
-def load_lora(pipeline, lora_model, rank):
+def load_lora(pipeline, lora_model_name, rank):
     pipeline.load_lora_weights(
-        lora_model,
+        lora_model_name,
         weight_name=f"pytorch_lora_weights_{rank}.safetensors",
         force_download=FORCE_DOWNLOAD,
     )
@@ -40,9 +40,7 @@ def random_select(combination_prompts: list[list[str]]):
     return res
 
 
-def try_infer(
-    pipeline, prompt: Tuple[str], combination_prompts: list[list[str]]
-):
+def try_infer(pipeline, prompt: Tuple[str], combination_prompts: list[list[str]]):
     selected_prompts = random_select(combination_prompts)
     positive_prompt = f"{', '.join(selected_prompts)}, {prompt[0]}"
     image = pipeline(
@@ -67,9 +65,7 @@ def infer(
         j = 0
         image = None
         while j < 10:
-            image, selected_prompts = try_infer(
-                pipeline, prompt, combination_prompts
-            )
+            image, selected_prompts = try_infer(pipeline, prompt, combination_prompts)
             if is_nsfw(image):
                 print(f"NSFW image generated for prompts: {selected_prompts}")
             else:
@@ -94,7 +90,7 @@ def load_prompts():
 
 def texts_to_images(
     base_model_name: str,
-    lora_model: str,
+    lora_mode_name: str,
     lora_ranks: list[int],
     major_promts: list[str],
     combination_prompts: list[list[str]],
@@ -110,7 +106,7 @@ def texts_to_images(
 
     Parameters:
         base_model_name (str): The name of the base stable diffuser model.
-        lora_model (str): The lora model, which may contrains weights file of various ranks, which name pattern is
+        lora_mode_name (str): The name of lora model, which may contrains weights file of various ranks, which name pattern is
             "pytorch_lora_weights_{rank}.safetensors".
         lora_ranks (list[int]): The ranks of lora models.
         major_promts (list[str]): The major prompts, e.g. ["(genshin impact style)", "portrait"].
@@ -127,7 +123,7 @@ def texts_to_images(
     # we set the rank to 0 to indicate the base model
     infer(pipeline, 0, prompts_pairs, combination_prompts)
     for rank in lora_ranks:
-        load_lora(pipeline, lora_model, rank)
+        load_lora(pipeline, lora_mode_name, rank)
         infer(pipeline, rank, prompts_pairs, combination_prompts)
 
 

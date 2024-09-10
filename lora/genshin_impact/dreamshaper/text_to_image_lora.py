@@ -10,9 +10,9 @@ from diffusers import StableDiffusionPipeline
 from compel import Compel
 
 
-def load_base_pipeline(base_model):
+def load_base_pipeline(base_model_name):
     pipeline = StableDiffusionPipeline.from_pretrained(
-        base_model, torch_dtype=torch.float16
+        base_model_name, torch_dtype=torch.float16
     ).to("cuda")
     pipeline.enable_model_cpu_offload()
     # use compel to avoid the prompt being too long(>77 tokens)
@@ -21,9 +21,9 @@ def load_base_pipeline(base_model):
     return pipeline, compel
 
 
-def load_lora(pipeline, lora_model, rank):
+def load_lora(pipeline, lora_model_name, rank):
     pipeline.load_lora_weights(
-        lora_model,
+        lora_model_name,
         weight_name=f"pytorch_lora_weights_{rank}.safetensors",
         force_download=FORCE_DOWNLOAD,
     )
@@ -101,7 +101,7 @@ def load_prompts():
 
 def texts_to_images(
     base_model_name: str,
-    lora_model: str,
+    lora_model_name: str,
     lora_ranks: list[int],
     major_promts: list[str],
     combination_prompts: list[list[str]],
@@ -117,7 +117,7 @@ def texts_to_images(
 
     Parameters:
         base_model_name (str): The name of the base stable diffuser model.
-        lora_model (str): The lora model, which may contrains weights file of various ranks, which name pattern is
+        lora_model (str): The name of lora model, which may contrains weights file of various ranks, which name pattern is
             "pytorch_lora_weights_{rank}.safetensors".
         lora_ranks (list[int]): The ranks of lora models.
         major_promts (list[str]): The major prompts, e.g. ["(genshin impact style)", "portrait"].
@@ -134,7 +134,7 @@ def texts_to_images(
     # we set the rank to 0 to indicate the base model
     infer(pipeline, compel, 0, prompts_pairs, combination_prompts)
     for rank in lora_ranks:
-        load_lora(pipeline, lora_model, rank)
+        load_lora(pipeline, lora_model_name, rank)
         infer(pipeline, compel, rank, prompts_pairs, combination_prompts)
 
 
